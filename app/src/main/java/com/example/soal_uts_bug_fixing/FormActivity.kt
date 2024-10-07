@@ -12,6 +12,12 @@ import com.example.soal_uts_bug_fixing.databinding.ActivityFormBinding
 class FormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFormBinding
     companion object{
+        //belda, menambahkan companion object untuk nama,
+        // identitas, gender, dan keluhan
+        const val EXTRA_NAMA = "nama"
+        const val EXTRA_IDENTITAS = "identitas"
+        const val EXTRA_GENDER = "gender"
+        const val EXTRA_KELUHAN = "keluhan"
     }
 
     private lateinit var gendersArray : Array<String>
@@ -21,7 +27,7 @@ class FormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFormBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        gendersArray = resources.getStringArray()
+        gendersArray = resources.getStringArray(R.array.gender_descriptions) // belda, menambahkan array gender
         // Gunakan array yang sudah di buat di folder values
 
 
@@ -36,7 +42,7 @@ class FormActivity : AppCompatActivity() {
                         parent: AdapterView<*>,
                         view: View, position: Int, id: Long
                     ) {
-                       genderInput = gendersArray[position]
+                        genderInput = gendersArray[position]
                     }
                     override fun onNothingSelected(parent: AdapterView<*>) {
                     }
@@ -44,6 +50,12 @@ class FormActivity : AppCompatActivity() {
 
             submitBtn.setOnClickListener(){
                 if(fieldNotEmpty()){
+                    // belda membuat variabel untuk menyimpan penginputan form
+                    val nama = namaEdt.text.toString()
+                    val identitas = identitasEdt.text.toString()
+                    val gender = this.genderSpinner
+                    val keluhan = keluhanEdt.text.toString()
+
                     val intentToAppointment = Intent(this@FormActivity, AppointmentActivity::class.java)
                     intentToAppointment.putExtra(EXTRA_NAMA, namaEdt.text.toString())
                     intentToAppointment.putExtra(EXTRA_IDENTITAS, identitasEdt.text.toString())
@@ -67,4 +79,8 @@ class FormActivity : AppCompatActivity() {
             }
         }
     }
+}
+
+private fun <Spinner> Intent.putExtra(gender: Spinner, genderInput: String) {
+
 }
